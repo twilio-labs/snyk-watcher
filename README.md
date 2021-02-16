@@ -5,7 +5,7 @@ Snyk-Watcher listens for webhooks to trigger events. It watches the main branch 
 * Repository - Created, Deleted, Renamed
 * Pull Request - All
 
-For the pull request webhooks, Snyk-Watcher will only try to import a project if it has been merged to main. Snyk-Watcher
+For the pull request webhooks, Snyk-Watcher will only try to import a project if it has been merged to main.
 
 ## Installation
 
