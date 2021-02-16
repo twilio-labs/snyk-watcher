@@ -1,41 +1,58 @@
-## What is it?
-
-Snyk-Watcher is a Github App to sync your github repositories with the Snyk vulnerability scanning service. Snyk-Watcher will automatically import and delete repositories as they are created and deleted in your github organization.
-
 ## How does it work?
 
-Snyk-Watcher listens for webhooks to trigger events. Currently, it only watches the master branch. It should recieve the following events from Github:
+Snyk-Watcher listens for webhooks to trigger events. It watches the main branch for the following events from Github:
+
 * Repository - Created, Deleted, Renamed
 * Pull Request - All
 
-For the pull request webhooks, Snyk-Watcher will only try to import a project if it has been merged to master.
-
-## Running Snyk-Watcher
-
-Snyk-Watcher is designed to be completely stand alone, you could build the container with the ```make build``` command.
-
-A helper docker-compose file has been included with the following commands to streamline the process:
-
-```docker-compose build```
-
-```docker-compose up```
-
-Snyk-Watcher requires two environment variables:
-* SECRET_GITHUB_SECRET - Used to verify payloads from Github.
-* SECRET_SNYK_API_TOKEN - Used to authenticate to Snyk to manage repositories.
+For the pull request webhooks, Snyk-Watcher will only try to import a project if it has been merged to main. Snyk-Watcher
 
 ## Installation
 
-Snyk-Watcher needs to be installed into a Github organization through the developer settings -> Github Apps.
+Snyk-Watcher runs completely standalone in a Docker container. We've included a docker-compose file to make it easy to build.
 
-The shared secret is required for proper functionality and must exactly match the provided value for Github secret environment variable.
+1. Clone this repository.
 
-Snyk-Watcher will need permissions to recieve webhooks for the above described events.
+1. Build the container:
 
-It requires Repository Administration, and Pull Request read only permissions (Snyk Watcher will not communicate with Github). Make sure to subscribe to the required events.
+   `docker-compose build`
+
+1. Start Snyk-Watcher:
+
+   `docker-compose up`
+
+   You can verify that Snyk-Watcher is running by navigating to:
+
+   `localhost:8000/healthcheck`
+
+1. In GitHub, go to the **GitHub Apps** developer setting and click **New GitHub App**.
+
+1. Enter the following values in the **Register new GitHub App** form:
+
+   * **GitHub App name**: `Snyk-Watcher`
+   * **Webhook URL**: {server}`/github/webhook`
+   * **Secret**: {a highly random string}
+
+1. Give Snyk-Watcher access to the following Repository permissions:
+
+   * **Repository Administration** (Read-only)
+   * **Metadata** (Read-only)
+   * **Pull requests** (Read-only)
+
+1. Subscribe to the following events:
+
+	* **Pull request**
+	* **Repository**
+
+1. Provide the Snyk-Watcher container your GitHub and Snyk tokens in these two environment variables:
+
+   * `SECRET_GITHUB_SECRET`
+   * `SECRET_SNYK_API_TOKEN`
+
+1. Test Snyk-Watcher by adding a new repository, then looking in the app’s advanced settings to see if the request was successful.
+    
 
 ## Limitations
 
-At this time, Snyk-Watcher is only tested with Github Enterprise, but should work with other flavors. Support for other version control systems is not supported.
-
-__Snyk-Watcher does not have access to your code or Github.__
+* At this time, Snyk-Watcher has been tested only with GitHub and GitHub Enterprise.
+* Snyk-Watcher does not have access to your code and does not make any changes to your GitHub organization or repositories.
