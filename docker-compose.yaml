@@ -1,0 +1,13 @@
+version: '3'
+services:
+  snyk_watcher:
+    build: .
+    user: snyk_watcher
+    volumes:
+     - ./app:/home/snyk_watcher/app
+    environment:
+        SECRET_GITHUB_SECRET: SECRET
+        SECRET_SNYK_API_TOKEN: SECRET
+    command: uvicorn app.main:app --reload --host 0.0.0.0
+    ports:
+        - "8000:8000"
