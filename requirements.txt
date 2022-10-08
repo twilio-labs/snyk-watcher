@@ -1,4 +1,4 @@
-aiohttp==3.6.2
+aiohttp==3.8.0
 aiounittest==1.4.0
 fastapi==0.65.2
 gunicorn==20.0.4
@@ -7,3 +7,4 @@ python-json-logger==0.1.11
 requests==2.24.0
 uvicorn==0.12.1
 uvloop==0.14.0
+urllib3>=1.26.5 # not directly required, pinned by Snyk to avoid a vulnerability
