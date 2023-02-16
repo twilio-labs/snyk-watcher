@@ -7,3 +7,4 @@ python-json-logger==0.1.11
 requests==2.24.0
 uvicorn==0.12.1
 uvloop==0.14.0
+starlette>=0.25.0 # not directly required, pinned by Snyk to avoid a vulnerability
