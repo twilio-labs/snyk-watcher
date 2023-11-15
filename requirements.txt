@@ -1,4 +1,4 @@
-aiohttp==3.6.2
+aiohttp==3.8.6
 aiounittest==1.4.0
 fastapi==0.65.2
 gunicorn==20.0.4
